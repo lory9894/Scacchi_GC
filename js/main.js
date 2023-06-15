@@ -314,25 +314,32 @@ function minimax(game, depth, alpha, beta, isMaximizingPlayer, sum, color) {
   }
 }
 
-function checkStatus(color) {
+$.fn.multiline = function(text){
+    this.text(text);
+    this.html(this.html().replace(/\n/g,'<br/>'));
+    return this;
+}
+function checkStatus(color_check) {
+  end_text = '';
   if (game.in_checkmate()) {
-    $('#status').html(`<b>Checkmate!</b><b>${color}</b> lost.`);
-        //TODO: add coordinates if our color is in stealmade
+    if (color_check !== color)
+      end_text= 'Congratulazioni, hai vinto!\nLe coordinate sono:';
+    else
+      end_text= 'Mi dispiace, hai perso!\nRicarica la pagina per riprovare';
   } else if (game.insufficient_material()) {
-    $('#status').html(`It's a <b>draw!</b> (Insufficient Material)`);
+    end_text= 'Pareggio per materiale insufficiente';
   } else if (game.in_threefold_repetition()) {
-    $('#status').html(`It's a <b>draw!</b> (Threefold Repetition)`);
+    end_text= 'Pareggio per ripetizione della posizione';
   } else if (game.in_stalemate()) {
-    $('#status').html(`It's a <b>draw!</b> (Stalemate)`);
+    end_text= 'Pareggio per stallo';
   } else if (game.in_draw()) {
-    $('#status').html(`It's a <b>draw!</b> (50-move Rule)`);
-  } else if (game.in_check()) {
-    $('#status').html(`<b>${color}</b> is in <b>check!</b>`);
-    return false;
+    end_text= 'Pareggio per regola delle 50 mosse';
   } else {
-    $('#status').html(`No check, checkmate, or draw.`);
     return false;
+
   }
+
+  $("p#conclusion").multiline(end_text);
   return true;
 }
 

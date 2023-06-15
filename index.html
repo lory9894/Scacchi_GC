@@ -58,56 +58,9 @@
         <main>
             <div class="container my-3">
                 <div class="row align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="text">
                         <h1 class="text-align-center">Simple Chess AI</h1>
-                        <div id="accordion">
-                            <div id="settings" class="collapse" aria-labelledby="settingsHeading" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row align-items-center justify-content-center">
-                                        <div class="form-group">
-                                            <label for="search-depth">Search Depth (Black):</label>
-                                            <select id="search-depth">
-                                                <option value="3" selected>3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row align-items-center justify-content-center">
-                                        <div class="form-group">
-                                            <label for="search-depth-white">Search Depth (White):</label>
-                                            <select id="search-depth-white">
-                                                <option value="3" selected>3</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="openingPositions" class="collapse" aria-labelledby="openingPositionsHeading" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row my-3 text-align-center">
-                                        <div class="col-md-6 my-2">
-                                            <button class="btn btn-primary" id="ruyLopezBtn">Ruy Lopez</button>
-                                        </div>
-                                        <div class="col-md-6 my-2">
-                                            <button class="btn btn-primary" id="italianGameBtn">Italian Game</button>
-                                        </div>
-                                    </div>
-                                    <div class="row my-3 text-align-center">
-                                        <div class="col-md-6 my-2">
-                                            <button class="btn btn-primary" id="sicilianDefenseBtn">Sicilian Defense</button>
-                                        </div>
-                                        <div class="col-md-6 my-2">
-                                            <button class="btn btn-primary" id="startBtn">Start Position</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row my-3 text-align-center" hidden="hidden">
-                            <div class="col-md-12">
-                                <h2>Status</h2>
-                                <p><span id="status">No check, checkmate, or draw.</span></p>
-                            </div>
-                        </div>
+                        <p class="text-align-center" id="conclusion"></p>
                     </div>
                     <div class="col-md-6">
                         <div id="myBoard"></div>
