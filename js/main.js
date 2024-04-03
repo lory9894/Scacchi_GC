@@ -9,8 +9,8 @@ var STACK_SIZE = 100; // maximum size of undo stack
 
 var board = null;
 var $board = $('#myBoard');
-var color = Math.random() >= 0.5 ? 'b' : 'w'; // 'b' for black, 'w' for white
-var game = new Chess(color === 'b' ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1');
+var color = 'white'; // 'b' for black, 'w' for white
+var game = new Chess();
 var globalSum = 0; // always from black's perspective. Negative for white's perspective.
 var whiteSquareGrey = '#a9a9a9';
 var blackSquareGrey = '#696969';
@@ -28,6 +28,7 @@ var config = {
   onMouseoutSquare: onMouseoutSquare,
   onMouseoverSquare: onMouseoverSquare,
   onSnapEnd: onSnapEnd,
+  orientation: color
 };
 board = Chessboard('myBoard', config);
 
