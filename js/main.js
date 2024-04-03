@@ -323,7 +323,8 @@ function checkStatus(color_check) {
   end_text = '';
   if (game.in_checkmate()) {
     if (color_check !== color)
-      end_text= 'Congratulazioni, hai vinto!\nLe coordinate sono:';
+      end_text= 'Congratulazioni, hai vinto!\nLe coordinate sono: \n' +
+          'Il Capitano barba Scura ha attraccato sulle sponde di questo fiume è ha nascosto la principessa nel fondo di una grotta. "Magnetico"';
     else
       end_text= 'Mi dispiace, hai perso!\nRicarica la pagina per riprovare';
   } else if (game.insufficient_material()) {
@@ -438,82 +439,6 @@ function makeBestMove(color) {
   }
 }
 
-/*
- * Plays Computer vs. Computer, starting with a given color.
- */
-function compVsComp(color) {
-  if (!checkStatus({ w: 'white', b: 'black' }[color])) {
-    timer = window.setTimeout(function () {
-      makeBestMove(color);
-      if (color === 'w') {
-        color = 'b';
-      } else {
-        color = 'w';
-      }
-      compVsComp(color);
-    }, 250);
-  }
-}
-
-/*
- * Resets the game to its initial state.
- */
-function reset() {
-  game.reset();
-  globalSum = 0;
-  $board.find('.' + squareClass).removeClass('highlight-white');
-  $board.find('.' + squareClass).removeClass('highlight-black');
-  $board.find('.' + squareClass).removeClass('highlight-hint');
-  board.position(game.fen());
-  $('#advantageColor').text('Neither side');
-  $('#advantageNumber').text(globalSum);
-
-  // Kill the Computer vs. Computer callback
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  }
-}
-
-/*
- * Event listeners for various buttons.
- */
-$('#ruyLopezBtn').on('click', function () {
-  reset();
-  game.load(
-    'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 1'
-  );
-  board.position(game.fen());
-  window.setTimeout(function () {
-    makeBestMove('b');
-  }, 250);
-});
-$('#italianGameBtn').on('click', function () {
-  reset();
-  game.load(
-    'r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 1'
-  );
-  board.position(game.fen());
-  window.setTimeout(function () {
-    makeBestMove('b');
-  }, 250);
-});
-$('#sicilianDefenseBtn').on('click', function () {
-  reset();
-  game.load('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1');
-  board.position(game.fen());
-});
-$('#startBtn').on('click', function () {
-  reset();
-});
-
-$('#compVsCompBtn').on('click', function () {
-  reset();
-  compVsComp('w');
-});
-$('#resetBtn').on('click', function () {
-  reset();
-});
 
 var undo_stack = [];
 
@@ -526,62 +451,6 @@ function undo() {
     undo_stack.shift();
   }
   board.position(game.fen());
-}
-
-$('#undoBtn').on('click', function () {
-  if (game.history().length >= 2) {
-    $board.find('.' + squareClass).removeClass('highlight-white');
-    $board.find('.' + squareClass).removeClass('highlight-black');
-    $board.find('.' + squareClass).removeClass('highlight-hint');
-
-    // Undo twice: Opponent's latest move, followed by player's latest move
-    undo();
-    window.setTimeout(function () {
-      undo();
-      window.setTimeout(function () {
-        showHint();
-      }, 250);
-    }, 250);
-  } else {
-    alert('Nothing to undo.');
-  }
-});
-
-function redo() {
-  game.move(undo_stack.pop());
-  board.position(game.fen());
-}
-
-$('#redoBtn').on('click', function () {
-  if (undo_stack.length >= 2) {
-    // Redo twice: Player's last move, followed by opponent's last move
-    redo();
-    window.setTimeout(function () {
-      redo();
-      window.setTimeout(function () {
-        showHint();
-      }, 250);
-    }, 250);
-  } else {
-    alert('Nothing to redo.');
-  }
-});
-
-$('#showHint').change(function () {
-  window.setTimeout(showHint, 250);
-});
-
-function showHint() {
-  var showHint = document.getElementById('showHint');
-  $board.find('.' + squareClass).removeClass('highlight-hint');
-
-  // Show hint (best move for white)
-  if (showHint.checked) {
-    var move = getBestMove(game, 'w', -globalSum)[0];
-
-    $board.find('.square-' + move.from).addClass('highlight-hint');
-    $board.find('.square-' + move.to).addClass('highlight-hint');
-  }
 }
 
 /*
