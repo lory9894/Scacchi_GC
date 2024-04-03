@@ -8,6 +8,11 @@
     margin: auto;
 }
 
+#parent {
+    max-width: 800px;
+    height: auto;
+}
+
 
 #myBoard {
     max-width: 100%;
