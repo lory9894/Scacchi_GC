@@ -9,8 +9,8 @@ var STACK_SIZE = 100; // maximum size of undo stack
 
 var board = null;
 var $board = $('#myBoard');
-var color = 'white'; // 'b' for black, 'w' for white
-var game = new Chess();
+var color = 'w'; // 'b' for black, 'w' for white
+var game = new Chess( );
 var globalSum = 0; // always from black's perspective. Negative for white's perspective.
 var whiteSquareGrey = '#a9a9a9';
 var blackSquareGrey = '#696969';
@@ -28,7 +28,6 @@ var config = {
   onMouseoutSquare: onMouseoutSquare,
   onMouseoverSquare: onMouseoverSquare,
   onSnapEnd: onSnapEnd,
-  orientation: color
 };
 board = Chessboard('myBoard', config);
 
@@ -323,10 +322,10 @@ $.fn.multiline = function(text){
 function checkStatus(color_check) {
   end_text = '';
   if (game.in_checkmate()) {
-    if (color_check !== color)
-      end_text= 'Congratulazioni, hai vinto!\nLe coordinate sono: \n' +
-          'Il Capitano barba Scura ha attraccato sulle sponde di questo fiume è ha nascosto la principessa nel fondo di una grotta. "Magnetico"';
-    else
+    if (color_check === color) {
+    end_text = 'Congratulazioni, hai vinto!\nLe coordinate sono: \n' +
+        'Il Capitano barba Scura ha attraccato sulle sponde di questo fiume ed ha nascosto la principessa nel fondo di una grotta. "Magnetico"';
+    }else
       end_text= 'Mi dispiace, hai perso!\nRicarica la pagina per riprovare';
   } else if (game.insufficient_material()) {
     end_text= 'Pareggio per materiale insufficiente';
