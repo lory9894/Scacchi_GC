@@ -320,9 +320,10 @@ $.fn.multiline = function(text){
     return this;
 }
 function checkStatus(color_check) {
+
   end_text = '';
   if (game.in_checkmate()) {
-    if (color_check === color) {
+    if (game.turn() !== color) {
     end_text = 'Congratulazioni, hai vinto!\nLe coordinate sono: \n' +
         'Il Capitano barba Scura ha attraccato sulle sponde di questo fiume ed ha nascosto la principessa nel fondo di una grotta. "Magnetico"';
     }else
@@ -367,7 +368,7 @@ function updateAdvantage() {
 function getBestMove(game, color, currSum) {
   positionCount = 0;
 
-  MINMAX_DEPTH = 3;
+  MINMAX_DEPTH = 3; //TODO: 3
 
   if (color === 'b') {
     var depth = MINMAX_DEPTH;
@@ -442,17 +443,6 @@ function makeBestMove(color) {
 
 var undo_stack = [];
 
-function undo() {
-  var move = game.undo();
-  undo_stack.push(move);
-
-  // Maintain a maximum stack size
-  if (undo_stack.length > STACK_SIZE) {
-    undo_stack.shift();
-  }
-  board.position(game.fen());
-}
-
 /*
  * The remaining code is adapted from chessboard.js examples #5000 through #5005:
  * https://chessboardjs.com/examples#5000
@@ -519,7 +509,6 @@ function onDrop(source, target) {
     window.setTimeout(function () {
       makeBestMove('b');
       window.setTimeout(function () {
-        showHint();
       }, 250);
     }, 250);
   }
